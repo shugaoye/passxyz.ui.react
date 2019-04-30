@@ -1,11 +1,12 @@
 var React = require('react');
 var Markdown = require('markdown-it')();
+var Table = require('./TableComponent.react');
 
 var Application = React.createClass({
   
   getInitialState: function () {
     return {
-      isHeaderHidden: true
+      isHeaderHidden: false
     };
   },
   
@@ -39,7 +40,10 @@ var Application = React.createClass({
               <p>Hello World!</p>
               {buttonElement}
           </div>
-          <div className="col-md-8">          
+          <div className="col-md-8">
+          <Table 
+            data = {entryModel}
+          />
           </div>
         </div>
       </div>  
@@ -54,7 +58,7 @@ var Application = React.createClass({
       </div>  
     );
     
-    console.log(resultText);
+    // console.log(resultText);
 
     if (this.state.isHeaderHidden) {
       console.log("Hide Header.");

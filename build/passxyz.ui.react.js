@@ -27101,13 +27101,14 @@ ReactDOM.render(React.createElement(Application, null), document.getElementById(
 
 var React = require('react');
 var Markdown = require('markdown-it')();
+var Table = require('./TableComponent.react');
 
 var Application = React.createClass({
   displayName: 'Application',
 
   getInitialState: function getInitialState() {
     return {
-      isHeaderHidden: true
+      isHeaderHidden: false
     };
   },
 
@@ -27146,7 +27147,13 @@ var Application = React.createClass({
           ),
           buttonElement
         ),
-        React.createElement('div', { className: 'col-md-8' })
+        React.createElement(
+          'div',
+          { className: 'col-md-8' },
+          React.createElement(Table, {
+            data: entryModel
+          })
+        )
       )
     );
 
@@ -27160,7 +27167,7 @@ var Application = React.createClass({
       )
     );
 
-    console.log(resultText);
+    // console.log(resultText);
 
     if (this.state.isHeaderHidden) {
       console.log("Hide Header.");
@@ -27173,4 +27180,97 @@ var Application = React.createClass({
 
 module.exports = Application;
 
-},{"markdown-it":31,"react":219}]},{},[226]);
+},{"./TableComponent.react":228,"markdown-it":31,"react":219}],228:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+var TableRow = React.createClass({
+  displayName: 'TableRow',
+
+  propTypes: {
+    rowData: function rowData(properties, propertyName, componentName) {
+      var rowData = properties[propertyName];
+
+      if (!rowData) {
+        return new Error('Table data must be set.');
+      }
+    }
+  },
+
+  getInitialState: function getInitialState() {
+    return {
+      rowData: {}
+    };
+  },
+
+  render: function render() {
+    var row = this.props.rowData;
+    console.log(row);
+    return React.createElement(
+      'tr',
+      null,
+      React.createElement(
+        'td',
+        null,
+        row.Key
+      ),
+      React.createElement(
+        'td',
+        null,
+        row.Value
+      )
+    );
+  }
+
+});
+
+var TableComponent = React.createClass({
+  displayName: 'TableComponent',
+
+  propTypes: {
+    data: function data(properties, propertyName, componentName) {
+      var tableData = properties[propertyName];
+
+      if (!tableData) {
+        return new Error('Table data must be set.');
+      }
+    }
+  },
+
+  getInitialState: function getInitialState() {
+    return {
+      data: {}
+    };
+  },
+
+  getListOfDataIds: function getListOfDataIds() {
+    return Object.keys(this.props.data.Items);
+  },
+
+  getTableRowElement: function getTableRowElement(dataId) {
+    var rowData = this.props.data.Items[dataId];
+
+    return React.createElement(TableRow, { rowData: rowData, key: rowData.Key });
+  },
+
+  render: function render() {
+    // Data
+    var rowElements = this.getListOfDataIds().map(this.getTableRowElement);
+    console.log(rowElements);
+
+    return React.createElement(
+      'table',
+      { className: 'table table-bordered table-hover', width: '100%' },
+      React.createElement(
+        'tbody',
+        null,
+        rowElements
+      )
+    );
+  }
+});
+
+module.exports = TableComponent;
+
+},{"react":219}]},{},[226]);

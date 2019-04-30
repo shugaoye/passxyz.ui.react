@@ -7,6 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bootstrap.min.css">
     <script>
+        var colNames = ["Key", "Value", "Show/Hidden"];
+        var entryModel = //GUMIWA_JsonData 
+        {
+            Title: "PassXYZ",
+            Items: [{ Key: "Username", Value: "PassXYZ", IsProtected: false, IsHidden: false },
+                { Key: "Password", Value: "87654321", IsProtected: true, IsHidden: true },
+                { Key: "Mobile", Value: "123456789", IsProtected: false, IsHidden: false },
+                { Key: "PIN", Value: "1234", IsProtected: true, IsHidden: true },
+                { Key: "Url", Value: "http://passxyz.github.io", IsProtected: false, IsHidden: false }]
+        };
+
     var textMarkdown = "# Intro \n \
 Go ahead, play around with the editor! Be sure to check out **bold** and *italic* styling, \
 or even [links](https://google.com). You can type the Markdown syntax, use the toolbar, \
@@ -47,7 +58,7 @@ Unordered lists can be started using the toolbar or by typing \
       I am about to learn the essentials of React.js.
     </div>
 
-    <div id="md-text"></div>
+    <div id=table-component>Loading...</div>
 
     <script src="./passxyz.ui.react.js"></script>
   </body>
