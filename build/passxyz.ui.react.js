@@ -27108,7 +27108,7 @@ var Application = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      isHeaderHidden: false
+      isHeaderHidden: true
     };
   },
 
@@ -27129,16 +27129,12 @@ var Application = React.createClass({
       'div',
       { className: 'container-fluid' },
       React.createElement(
-        'section',
-        { 'class': 'main-content' },
-        React.createElement('div', { dangerouslySetInnerHTML: { __html: resultText } })
-      ),
-      React.createElement(
         'div',
         { className: 'row' },
+        React.createElement('div', { className: 'col-md-4 text-center' }),
         React.createElement(
           'div',
-          { className: 'col-md-4 text-center' },
+          { className: 'col-md-8' },
           headerElement,
           React.createElement(
             'p',
@@ -27148,11 +27144,15 @@ var Application = React.createClass({
           buttonElement
         ),
         React.createElement(
-          'div',
-          { className: 'col-md-8' },
-          React.createElement(Table, {
-            data: entryModel
-          })
+          'section',
+          { 'class': 'main-content' },
+          React.createElement(
+            'h1',
+            null,
+            entryModel.Title
+          ),
+          React.createElement(Table, { data: entryModel }),
+          React.createElement('div', { dangerouslySetInnerHTML: { __html: resultText } })
         )
       )
     );
@@ -27163,6 +27163,12 @@ var Application = React.createClass({
       React.createElement(
         'section',
         { 'class': 'main-content' },
+        React.createElement(
+          'h1',
+          null,
+          entryModel.Title
+        ),
+        React.createElement(Table, { data: entryModel }),
         React.createElement('div', { dangerouslySetInnerHTML: { __html: resultText } })
       )
     );
@@ -27211,8 +27217,8 @@ var TableRow = React.createClass({
       'tr',
       null,
       React.createElement(
-        'td',
-        null,
+        'th',
+        { scope: 'row' },
         row.Key
       ),
       React.createElement(
@@ -27261,7 +27267,7 @@ var TableComponent = React.createClass({
 
     return React.createElement(
       'table',
-      { className: 'table table-bordered table-hover', width: '100%' },
+      { className: 'table table-sm table-striped table-bordered table-hover' },
       React.createElement(
         'tbody',
         null,

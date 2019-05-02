@@ -24,7 +24,7 @@ var TableRow = React.createClass({
     console.log(row);
     return (
       <tr>
-        <td>{row.Key}</td>
+        <th scope="row">{row.Key}</th>
         <td>{row.Value}</td>
       </tr>);
   }
@@ -65,7 +65,7 @@ var TableComponent = React.createClass({
       var rowElements = this.getListOfDataIds().map(this.getTableRowElement);
       console.log(rowElements);
    
-      return (<table className="table table-bordered table-hover" width="100%">
+      return (<table className="table table-sm table-striped table-bordered table-hover">
       <tbody>{rowElements}</tbody>
       </table>)
     }

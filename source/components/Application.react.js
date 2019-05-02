@@ -6,7 +6,7 @@ var Application = React.createClass({
   
   getInitialState: function () {
     return {
-      isHeaderHidden: false
+      isHeaderHidden: true
     };
   },
   
@@ -30,21 +30,20 @@ var Application = React.createClass({
     const testElement = 
     (
       <div className="container-fluid">
-      <section class="main-content">
-          <div dangerouslySetInnerHTML={{__html: resultText}}></div>
-      </section>
 
         <div className="row">
           <div className="col-md-4 text-center">
+          </div>
+          <div className="col-md-8">
               {headerElement}
               <p>Hello World!</p>
               {buttonElement}
           </div>
-          <div className="col-md-8">
-          <Table 
-            data = {entryModel}
-          />
-          </div>
+          <section class="main-content">
+            <h1>{entryModel.Title}</h1>
+            <Table data = {entryModel} />
+            <div dangerouslySetInnerHTML={{__html: resultText}}></div>
+          </section>
         </div>
       </div>  
     );
@@ -53,6 +52,8 @@ var Application = React.createClass({
     (
       <div className="container-fluid">
         <section class="main-content">
+          <h1>{entryModel.Title}</h1>
+          <Table data = {entryModel} />
           <div dangerouslySetInnerHTML={{__html: resultText}}></div>
         </section>
       </div>  
