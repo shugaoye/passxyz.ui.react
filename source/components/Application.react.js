@@ -1,30 +1,27 @@
-var React = require('react');
-var Markdown = require('markdown-it')();
-var Table = require('./TableComponent.react');
+import React, { Component } from 'react';
+import ReactMarkdown from 'react-markdown';
+import Table from './TableComponent.react';
 
-var Application = React.createClass({
+class Application extends Component {
   
-  getInitialState: function () {
-    return {
+  state = {
       isHeaderHidden: true
-    };
-  },
+  }
   
-  handleClick: function () {    
+  handleClick() {
     this.setState({
       isHeaderHidden: ! this.state.isHeaderHidden
     });
-  },
+  }
 
-  render: function () {
-    var resultText = Markdown.render(textMarkdown);
+  render() {
+    // var resultText = Markdown.render(textMarkdown);
 
     var headerElement = React.createElement('h1', { className: 'header', key: 'header' }, 'You can hide me.');
     var buttonElement = React.createElement('button', { className: 'btn btn-outline-primary', onClick: this.handleClick, key: 'button' }, 'Toggle header');
     const markdownElement = React.createElement(
       'div',
-      { className: 'md-text2' },
-      resultText
+      { className: 'md-text2' }
     );
 
     const testElement = 
@@ -42,7 +39,7 @@ var Application = React.createClass({
           <section class="main-content">
             <h1>{entryModel.Title}</h1>
             <Table data = {entryModel} />
-            <div dangerouslySetInnerHTML={{__html: resultText}}></div>
+            <ReactMarkdown source={textMarkdown} />
           </section>
         </div>
       </div>  
@@ -54,7 +51,7 @@ var Application = React.createClass({
         <section class="main-content">
           <h1>{entryModel.Title}</h1>
           <Table data = {entryModel} />
-          <div dangerouslySetInnerHTML={{__html: resultText}}></div>
+          <ReactMarkdown source={textMarkdown} />
         </section>
       </div>  
     );
@@ -70,6 +67,6 @@ var Application = React.createClass({
       testElement
     );
   }
-});
+}
 
-module.exports = Application;
+export default Application;

@@ -1,34 +1,24 @@
-var React = require('react');
-var ReactPassword = require('./InputPassword.react')
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import PasswordInput from 'react-input-password';
+// var ReactPassword = require('./InputPassword.react')
 
-var TableRow = React.createClass({
-  propTypes: {
-    rowData: function(properties, propertyName, componentName) {
-      var rowData = properties[propertyName];
+class TableRow extends React.Component {
 
-      if (! rowData) {
-        return new Error('Table data must be set.');
-      }
-
-    },
-  },
-
-  getInitialState: function () {
-    return {
-      checked: false,
-      rowData: {}
-    };
-  },
+  State = {
+    checked: false,
+    rowData: {}
+  }
   
-  handleCheckChange: function (event) {
+  handleCheckChange(event) {
     this.setState({checked: !this.state.checked})
-  },
+  }
 
-  handlePasswordChange: function (event) {
+  handlePasswordChange(event) {
     console.log(this.refs.password.state.value)
-  },
+  }
 
-  render: function() 
+  render()
   {
     var row = this.props.rowData;
 
@@ -40,7 +30,8 @@ var TableRow = React.createClass({
           <td>
 
           <div className="input-group input-group-sm mb-3">
-            <ReactPassword ref='password' value={row.Value} revealed={ this.state.checked } onChange={ this.handlePasswordChange } id='secret-password'/>
+            <PasswordInput
+                    onChange={this.handlePasswordChange}/>
             <div className="input-group-prepend">
                 <div className="input-group-text">
                   <input type="checkbox" aria-label="Checkbox for following text input"  onChange= { this.handleCheckChange } checked={ this.state.checked ? 'checked' : null } />
@@ -60,39 +51,36 @@ var TableRow = React.createClass({
         </tr>);  
     }
   }
+}
 
-});
+TableRow.propTypes = {
+  rowData: function(properties, propertyName, componentName) {
+    var rowData = properties[propertyName];
 
-var TableComponent = React.createClass({
-  propTypes: {
-    data: function(properties, propertyName, componentName) {
-      var tableData = properties[propertyName];
+    if (! rowData) {
+      return new Error('Row data must be set.');
+    }
 
-      if (! tableData) {
-        return new Error('Table data must be set.');
-      }
+  }
+};
 
-    },
-  },
-
-  getInitialState: function () {
-    return {
-      data: {}
-    };
-  },
+class TableComponent extends Component {
+  State = {
+    data: {}
+  }
   
-  getListOfDataIds: function () {
+  getListOfDataIds() {
     return Object.keys(this.props.data.Items);
-  },
+  }
 
-  getTableRowElement: function (dataId) {
+  getTableRowElement(dataId) {
     var rowData = this.props.data.Items[dataId];
 
     return (<TableRow rowData={rowData} key={rowData.Key} />);
-  },
+  }
 
 
-    render: function() {
+  render() {
       // Data
       var rowElements = this.getListOfDataIds().map(this.getTableRowElement);
       console.log(rowElements);
@@ -101,6 +89,17 @@ var TableComponent = React.createClass({
       <tbody>{rowElements}</tbody>
       </table>)
     }
-});
+}
 
-module.exports = TableComponent;
+TableComponent.propTypes = {
+  data: function(properties, propertyName, componentName) {
+    var data = properties[propertyName];
+
+    if (! data) {
+      return new Error('Table data must be set.');
+    }
+
+  }
+};
+
+export default TableComponent;
