@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactPassword = require('./InputPassword.react')
 
 var TableRow = React.createClass({
   propTypes: {
@@ -14,19 +15,50 @@ var TableRow = React.createClass({
 
   getInitialState: function () {
     return {
+      checked: false,
       rowData: {}
     };
   },
   
+  handleCheckChange: function (event) {
+    this.setState({checked: !this.state.checked})
+  },
+
+  handlePasswordChange: function (event) {
+    console.log(this.refs.password.state.value)
+  },
+
   render: function() 
   {
     var row = this.props.rowData;
-    console.log(row);
-    return (
-      <tr>
-        <th scope="row">{row.Key}</th>
-        <td>{row.Value}</td>
-      </tr>);
+
+    if(row.IsProtected)
+    {
+      return (
+        <tr>
+          <th scope="row">{row.Key}</th>
+          <td>
+
+          <div className="input-group input-group-sm mb-3">
+            <ReactPassword ref='password' value={row.Value} revealed={ this.state.checked } onChange={ this.handlePasswordChange } id='secret-password'/>
+            <div className="input-group-prepend">
+                <div className="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input"  onChange= { this.handleCheckChange } checked={ this.state.checked ? 'checked' : null } />
+                </div>
+            </div>
+        </div>
+            
+          </td>
+        </tr>);  
+    }
+    else 
+    {
+      return (
+        <tr>
+          <th scope="row">{row.Key}</th>
+          <td>{row.Value}</td>
+        </tr>);  
+    }
   }
 
 });

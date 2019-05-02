@@ -27186,10 +27186,61 @@ var Application = React.createClass({
 
 module.exports = Application;
 
-},{"./TableComponent.react":228,"markdown-it":31,"react":219}],228:[function(require,module,exports){
+},{"./TableComponent.react":229,"markdown-it":31,"react":219}],228:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var React = require('react');
+
+var ReactPassword = React.createClass({
+  displayName: 'ReactPassword',
+
+  getInitialState: function getInitialState() {
+    return {
+      value: this.props.value || ''
+    };
+  },
+
+  getDefaultProps: function getDefaultProps() {
+    return {
+      onChange: Function(),
+      revealed: false,
+      value: ''
+    };
+  },
+
+  handleChange: function handleChange(event) {
+    this.setState({ value: event.target.value });
+    this.props.onChange(event);
+  },
+
+  propTypes: {
+    onChange: React.PropTypes.func,
+    revealed: React.PropTypes.bool,
+    value: React.PropTypes.string
+  },
+
+  render: function render() {
+    var val = this.state.value;
+    var _props = this.props;
+    var revealed = _props.revealed;
+
+    var other = _objectWithoutProperties(_props, ['revealed']);
+
+    return React.createElement('input', _extends({}, other, { type: revealed ? 'text' : 'password', disabled: 'true', value: val, onChange: this.handleChange, className: 'react-password' }));
+  }
+});
+
+module.exports = ReactPassword;
+
+},{"react":219}],229:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var ReactPassword = require('./InputPassword.react');
 
 var TableRow = React.createClass({
   displayName: 'TableRow',
@@ -27206,27 +27257,66 @@ var TableRow = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
+      checked: false,
       rowData: {}
     };
   },
 
+  handleCheckChange: function handleCheckChange(event) {
+    this.setState({ checked: !this.state.checked });
+  },
+
+  handlePasswordChange: function handlePasswordChange(event) {
+    console.log(this.refs.password.state.value);
+  },
+
   render: function render() {
     var row = this.props.rowData;
-    console.log(row);
-    return React.createElement(
-      'tr',
-      null,
-      React.createElement(
-        'th',
-        { scope: 'row' },
-        row.Key
-      ),
-      React.createElement(
-        'td',
+
+    if (row.IsProtected) {
+      return React.createElement(
+        'tr',
         null,
-        row.Value
-      )
-    );
+        React.createElement(
+          'th',
+          { scope: 'row' },
+          row.Key
+        ),
+        React.createElement(
+          'td',
+          null,
+          React.createElement(
+            'div',
+            { className: 'input-group input-group-sm mb-3' },
+            React.createElement(ReactPassword, { ref: 'password', value: row.Value, revealed: this.state.checked, onChange: this.handlePasswordChange, id: 'secret-password' }),
+            React.createElement(
+              'div',
+              { className: 'input-group-prepend' },
+              React.createElement(
+                'div',
+                { className: 'input-group-text' },
+                React.createElement('input', { type: 'checkbox', 'aria-label': 'Checkbox for following text input', onChange: this.handleCheckChange, checked: this.state.checked ? 'checked' : null })
+              )
+            )
+          )
+        )
+      );
+    } else {
+      return React.createElement(
+        'tr',
+        null,
+        React.createElement(
+          'th',
+          { scope: 'row' },
+          row.Key
+        ),
+        React.createElement(
+          'td',
+          null,
+          row.Value
+        )
+      );
+    }
   }
 
 });
@@ -27279,4 +27369,4 @@ var TableComponent = React.createClass({
 
 module.exports = TableComponent;
 
-},{"react":219}]},{},[226]);
+},{"./InputPassword.react":228,"react":219}]},{},[226]);
