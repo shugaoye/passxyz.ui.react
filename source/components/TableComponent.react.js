@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import PasswordInput from 'react-input-password';
+import ReactPassword from './InputPassword.react';
 // var ReactPassword = require('./InputPassword.react')
 
 class TableRow extends React.Component {
 
-  State = {
+  state = {
     checked: false,
-    rowData: {}
+    rowData: this.props.rowData
   }
   
-  handleCheckChange(event) {
-    this.setState({checked: !this.state.checked})
+  handleCheckChange = (event) => {
+    const { checked } = this.state;
+    this.setState({checked: !checked})
   }
 
-  handlePasswordChange(event) {
-    console.log(this.refs.password.state.value)
+  handlePasswordChange = (event) => {
+    // console.log(this.refs.password.state.value)
   }
 
   render()
   {
-    var row = this.props.rowData;
+    const { checked, rowData} = this.state;
+
+    var row = rowData;
 
     if(row.IsProtected)
     {
@@ -28,17 +31,16 @@ class TableRow extends React.Component {
         <tr>
           <th scope="row">{row.Key}</th>
           <td>
-
           <div className="input-group input-group-sm mb-3">
-            <PasswordInput
-                    onChange={this.handlePasswordChange}/>
+            <ReactPassword ref='password' value={row.Value} revealed={ this.state.checked } onChange={ this.handlePasswordChange } id='secret-password'/>
             <div className="input-group-prepend">
                 <div className="input-group-text">
-                  <input type="checkbox" aria-label="Checkbox for following text input"  onChange= { this.handleCheckChange } checked={ this.state.checked ? 'checked' : null } />
+                  <input type="checkbox" aria-label="Checkbox for following text input"  
+                    onChange= { this.handleCheckChange } checked={ this.state.checked ? 'checked' : null } />
                 </div>
             </div>
-        </div>
-            
+        </div>            
+
           </td>
         </tr>);  
     }
@@ -65,25 +67,32 @@ TableRow.propTypes = {
 };
 
 class TableComponent extends Component {
-  State = {
-    data: {}
-  }
   
+  state = {
+    Items: this.props.data.Items
+  }
+
   getListOfDataIds() {
-    return Object.keys(this.props.data.Items);
+    const {
+      Items
+      } = this.state;
+
+    return Object.keys(Items);
   }
 
   getTableRowElement(dataId) {
-    var rowData = this.props.data.Items[dataId];
+    const {
+      Items
+      } = this.state;
+
+      var rowData = Items[dataId];
 
     return (<TableRow rowData={rowData} key={rowData.Key} />);
   }
 
-
   render() {
       // Data
-      var rowElements = this.getListOfDataIds().map(this.getTableRowElement);
-      console.log(rowElements);
+      var rowElements = this.getListOfDataIds().map(this.getTableRowElement, this);
    
       return (<table className="table table-sm table-striped table-bordered table-hover">
       <tbody>{rowElements}</tbody>

@@ -1,41 +1,38 @@
-var React = require('react')
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-var ReactPassword = React.createClass({
-  displayName: 'ReactPassword',
+class ReactPassword extends React.Component {
 
-  getInitialState: function () {
-    return {
-      value: this.props.value || ''
-    }
-  },
+  state = {
+    value: this.props.value || ''
+  }
 
-  getDefaultProps: function () {
-    return {
-      onChange: Function(),
-      revealed: false,
-      value: ''
-    }
-  },
+  handleChange = (event) => {
+    this.setState({value: event.target.value});
+    this.props.onChange(event);
+  }
 
-  handleChange: function (event) {
-    this.setState({value: event.target.value})
-    this.props.onChange(event)
-  },
-
-  propTypes: {
-    onChange: React.PropTypes.func,
-    revealed: React.PropTypes.bool,
-    value: React.PropTypes.string
-  },
-
-  render: function () {
+  render() {
     var val = this.state.value
-    var {revealed, ...other} = this.props
+    const { revealed } = this.props
 
     return (
-      <input {...other} type={ revealed ? 'text' : 'password' } disabled="true" value={ val } onChange={ this.handleChange } className='react-password'/>
+      <input type={ revealed ? 'text' : 'password' } disabled={true} value={ val } 
+        onChange={ this.handleChange } className='react-password'/>
     )
   }
-})
+}
 
-module.exports = ReactPassword
+ReactPassword.propTypes = {
+  onChange: PropTypes.func,
+  revealed: PropTypes.bool,
+  value: PropTypes.string
+};
+
+ReactPassword.defaultProps = {
+  onChange: Function(),
+  revealed: false,
+  value: ''
+}
+
+export default ReactPassword;

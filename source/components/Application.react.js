@@ -36,7 +36,7 @@ class Application extends Component {
               <p>Hello World!</p>
               {buttonElement}
           </div>
-          <section class="main-content">
+          <section className="main-content">
             <h1>{entryModel.Title}</h1>
             <Table data = {entryModel} />
             <ReactMarkdown source={textMarkdown} />
@@ -48,7 +48,7 @@ class Application extends Component {
     const withOutHeaderElement = 
     (
       <div className="container-fluid">
-        <section class="main-content">
+        <section className="main-content">
           <h1>{entryModel.Title}</h1>
           <Table data = {entryModel} />
           <ReactMarkdown source={textMarkdown} />
