@@ -10,6 +10,7 @@ class ReactPassword extends React.Component {
   handleChange = (event) => {
     this.setState({value: event.target.value});
     this.props.onChange(event);
+    console.log("handleChange: " + event.target.value)
   }
 
   render() {

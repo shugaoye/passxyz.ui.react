@@ -13,9 +13,11 @@ class TableRow extends React.Component {
   handleCheckChange = (event) => {
     const { checked } = this.state;
     this.setState({checked: !checked})
+    // console.log("handleCheckChange: " + event.target.value)
   }
 
   handlePasswordChange = (event) => {
+    console.log("handlePasswordChange: " + event.target.value)
     // console.log(this.refs.password.state.value)
   }
 
@@ -32,11 +34,12 @@ class TableRow extends React.Component {
           <th scope="row">{row.Key}</th>
           <td>
           <div className="input-group input-group-sm mb-3">
-            <ReactPassword ref='password' value={row.Value} revealed={ this.state.checked } onChange={ this.handlePasswordChange } id='secret-password'/>
+            <ReactPassword ref='password' value={row.Value} revealed={ checked } 
+              onChange={ this.handlePasswordChange } id='secret-password'/>
             <div className="input-group-prepend">
                 <div className="input-group-text">
                   <input type="checkbox" aria-label="Checkbox for following text input"  
-                    onChange= { this.handleCheckChange } checked={ this.state.checked ? 'checked' : null } />
+                    onChange= { this.handleCheckChange } />
                 </div>
             </div>
         </div>            

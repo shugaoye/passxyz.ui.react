@@ -35138,7 +35138,9 @@ var TableRow = function (_React$Component) {
       var checked = _this.state.checked;
 
       _this.setState({ checked: !checked });
+      // console.log("handleCheckChange: " + event.target.value)
     }, _this.handlePasswordChange = function (event) {
+      console.log("handlePasswordChange: " + event.target.value);
       // console.log(this.refs.password.state.value)
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -35168,7 +35170,8 @@ var TableRow = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'input-group input-group-sm mb-3' },
-              _react2.default.createElement(_InputPassword2.default, { ref: 'password', value: row.Value, revealed: this.state.checked, onChange: this.handlePasswordChange, id: 'secret-password' }),
+              _react2.default.createElement(_InputPassword2.default, { ref: 'password', value: row.Value, revealed: checked,
+                onChange: this.handlePasswordChange, id: 'secret-password' }),
               _react2.default.createElement(
                 'div',
                 { className: 'input-group-prepend' },
@@ -35176,7 +35179,7 @@ var TableRow = function (_React$Component) {
                   'div',
                   { className: 'input-group-text' },
                   _react2.default.createElement('input', { type: 'checkbox', 'aria-label': 'Checkbox for following text input',
-                    onChange: this.handleCheckChange, checked: this.state.checked ? 'checked' : null })
+                    onChange: this.handleCheckChange })
                 )
               )
             )
@@ -35332,6 +35335,7 @@ var ReactPassword = function (_React$Component) {
     }, _this.handleChange = function (event) {
       _this.setState({ value: event.target.value });
       _this.props.onChange(event);
+      console.log("handleChange: " + event.target.value);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
